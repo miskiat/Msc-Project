@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{% block title %}My App{% endblock %}e</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Didact+Gothic&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+      .row.content {
+        height: 100vh;
+      }
+
+      /* Set gray background color and 100% height */
+      .sidenav {
+        background-color: #f1f1f1;
+        height: 100%;
+      }
+
+      /* On small screens, set height to 'auto' for the grid */
+      @media screen and (max-width: 767px) {
+        .row.content {
+          height: auto;
+        }
+      }
+      body {
+        font-family: 'Urbanist', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        background-color: #333;
+        color: white;
+      }
+
+      .topbar a {
+        color: white;
+        text-decoration: none;
+      }
+
+      .container {
+        padding: 20px;
+      }
+
+      .hero {
+        text-align: center;
+        height: 100vh;
+        padding: 20px 20px;
+        background-image: url("https://img.freepik.com/free-vector/abstract-wavy-lines-gradient-background_78370-3039.jpg?size=626&ext=jpg&ga=GA1.1.1826414947.1721433600&semt=ais_user");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .hero h1 {
+        padding-top: 10vh;
+        font-size: 70px;
+        width: 50vw;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .hero p {
+        width: 30vw;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 20px;
+      }
+
+      .flash {
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      .flash.success {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .flash.danger {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+      .sidebar {
+        width: 200px;
+        float: left;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+
+      .sidebar a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        color: #333;
+      }
+
+      .sidebar a:hover {
+        background-color: #ddd;
+      }
+
+      .content {
+        margin-left: 0px;
+        padding: 0px;
+      }
+
+      .chart-container {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 20px;
+      }
+      .login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+.form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.form button {
+  text-transform: uppercase;
+  outline: 0;
+  background: #4b43a0;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: #4b43a0;
+}
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.form .message a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="topbar-left">My App</div>
+      <div class="topbar-right">
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('main.logout') }}">Logout</a>
+        {% else %}
+        <a href="{{ url_for('main.login') }}">Login</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="container-fluid">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %} {% block content %}{% endblock %}
+    </div>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+  </body>
+</html>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var ctx = document.getElementById("lineChart").getContext("2d");
+    var chartData = JSON.parse(
+      document.getElementById("lineChartData").textContent
+    );
+
+    new Chart(ctx, {
+      type: "line",
+      data: chartData,
+    });
+  });
+</script>

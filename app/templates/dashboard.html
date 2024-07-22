@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <!-- <h1>Dashboard</h1> -->
+    <!-- <div class="sidebar">
+        <a href="{{ url_for('main.upload') }}">Upload Data</a>
+        <a href="{{ url_for('main.view_data') }}">View Data</a>
+        <a href="{{ url_for('main.logout') }}">Logout</a>
+    </div> -->
+    <nav class="navbar navbar-inverse visible-xs">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="#">Logo</a>
+          </div>
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                <li class="active"><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
+              <li><a href="{{ url_for('main.upload') }}">Upload Data</a></li>
+          <li><a href="{{ url_for('main.view_data') }}">View Data</a></li>
+          <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
+          <li><a href="#">.....</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      
+        <div class="row content">
+    <div class="col-sm-3 sidenav hidden-xs">
+        <h2>Logo</h2>
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href="{{ url_for('main.home') }}">Home</a></li>
+            <li class="active"><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
+          <li><a href="{{ url_for('main.upload') }}">Upload Data</a></li>
+          <li><a href="{{ url_for('main.view_data') }}">View Data</a></li>
+          <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
+          <li><a href="#">.....</a></li>
+        </ul><br>
+      </div>
+    <div class=" col-sm-9">
+        <br><br>
+        <div class="well"><h2>Welcome {{ username }} 👋🏾</h2></div>
+        <div class="col-sm-3"><div class="well"><h4>Number of locations: </h4><p>{{ num_locations }}</p></div></div>
+        <div class="col-sm-3"><div class="well"><h4>Number of users:</h4><p> {{ num_users }}</p></div></div>
+        <div class="col-sm-3"><div class="well"><h4>Number of data records:</h4><p>Number of data records: {{ num_records }}</p></div></div>
+    </div>
+
+</div>
+<!-- </div> -->
+{% endblock %}

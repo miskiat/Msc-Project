@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}View Data{% endblock %}
+{% block content %}
+<nav class="navbar navbar-inverse visible-xs">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+        </button>
+        <a class="navbar-brand" href="#">Logo</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+            <li><a href="{{ url_for('main.home') }}">Home</a></li>
+            <li><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
+          <li><a href="{{ url_for('main.upload') }}">Upload Data</a></li>
+      <li class="active"><a href="{{ url_for('main.view_data') }}">View Data</a></li>
+      <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
+      <li><a href="#">.....</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <div class="row content">
+<div class="col-sm-3 sidenav hidden-xs">
+    <h2>Logo</h2>
+    <ul class="nav nav-pills nav-stacked">
+        <li><a href="{{ url_for('main.home') }}">Home</a></li>
+        <li><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
+      <li><a href="{{ url_for('main.upload') }}">Upload Data</a></li>
+      <li class="active"><a href="{{ url_for('main.view_data') }}">View Data</a></li>
+      <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
+      <li><a href="#">.....</a></li>
+    </ul><br>
+  </div>
+<div class=" col-sm-9">
+    <br><br>
+    <form method="GET" action="{{ url_for('main.view_data') }}">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.location.label }}<br>
+            {{ form.location() }}<br>
+        </div>
+        <div>
+            {{ form.search.label }}<br>
+            {{ form.search(size=32) }}<br>
+        </div>
+        <div>
+            {{ form.submit() }}
+        </div>
+    </form>
+    <div class="chart-container">
+        <canvas id="lineChart"></canvas>
+    </div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Time</th>
+                <th>Temp</th>
+                <th>IR</th>
+                <th>Vis</th>
+                <th>Lux</th>
+                <th>Accel_X</th>
+                <th>Accel_Y</th>
+                <th>Accel_Z</th>
+                <th>Tilt</th>
+                <th>Mag_X</th>
+                <th>Mag_Y</th>
+                <th>Mag_Z</th>
+                <th>H.Angle</th>
+                <th>Direction</th>
+                <th>VBAT</th>
+                <th>Data File ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in sensor_data %}
+            <tr>
+                <td>{{ data['id'] }}</td>
+                <td>{{ data['time'] }}</td>
+                <td>{{ data['temp'] }}</td>
+                <td>{{ data['ir'] }}</td>
+                <td>{{ data['vis'] }}</td>
+                <td>{{ data['lux'] }}</td>
+                <td>{{ data['accel_x'] }}</td>
+                <td>{{ data['accel_y'] }}</td>
+                <td>{{ data['accel_z'] }}</td>
+                <td>{{ data['tilt'] }}</td>
+                <td>{{ data['mag_x'] }}</td>
+                <td>{{ data['mag_y'] }}</td>
+                <td>{{ data['mag_z'] }}</td>
+                <td>{{ data['h_angle'] }}</td>
+                <td>{{ data['direction'] }}</td>
+                <td>{{ data['vbat'] }}</td>
+                <td>{{ data['data_file_id'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div>
+        {% if page > 1 %}
+            <a href="{{ url_for('main.view_data', page=page-1) }}">Previous</a>
+        {% endif %}
+        {% if total > page * per_page %}
+            <a href="{{ url_for('main.view_data', page=page+1) }}">Next</a>
+        {% endif %}
+    </div>
+
+</div>
+
+</div>
+{% endblock %}
