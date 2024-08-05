@@ -1,2 +1,5 @@
-id,username,email,password
-1,miski97,miskiat@gmail.com,password
+user_id,username,password,role
+1,johndoe,$2b$12$V.Z2IX9LfBBNQtu7TjFJ6enK3m2EGgzQp.Dem2rKcIY.n7HqcIvOm,Admin
+2,janedoe,$2b$12$7zLcv3cL/AxRGVZ/gz/C6OEaF7s6xTe0xlDO2FXH/.IB8afpBBQiO,User
+3,miski,scrypt:32768:8:1$dhaarSkPcgUpgNG8$25cf55af339dc807339d5fd4cc2586cfda1e2e38a03768f9861a6fa03eaacaa0d4ffceb2add778fedc06fd4e7bd28649bfb3143193b4324a1a3120c4f0fac0c6,Admin
+4,muby,scrypt:32768:8:1$mnArtwEBrZKyd8ha$8391898938d25029525eca145b37bae76018d161eae0fab0357a8acadfdb02eeda292d150085d6196c225fe0c11485823844112c9a2425f045ab76b7559b975a,Admin
