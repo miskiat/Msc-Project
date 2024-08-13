@@ -1,26 +1,34 @@
+# main.py
+
 import streamlit as st
 from models import add_user, validate_user
-from pages import home, upload, analysis
+from pages import home, upload, analysis, locations
 
 def main():
     st.set_page_config(page_title="Data Dashboard", layout="wide")
 
+    # Initialize session state
     if 'logged_in' not in st.session_state:
         st.session_state.logged_in = False
     if 'username' not in st.session_state:
         st.session_state.username = None
 
-    # Sidebar menu
-    menu = ["Home", "Upload Data", "Analyze Data"]
-    choice = st.sidebar.selectbox("Menu", menu)
+    # Display the logo at the top of the sidebar
+    st.sidebar.image("static/logo.png", use_column_width=True)  # Replace with your logo path
 
     if st.session_state.logged_in:
+        # Sidebar menu
+        menu = ["Home", "Upload Data", "Analyze Data", "Manage Locations"]
+        choice = st.sidebar.selectbox("Menu", menu)
+
         if choice == "Home":
-            home.show()  # Calls the show function in home.py
+            home.show()
         elif choice == "Upload Data":
-            upload.upload_data()  # Calls the upload_data function in upload.py
+            upload.upload_data()
         elif choice == "Analyze Data":
-            analysis.analyze_data()  # Calls the analyze_data function in analysis.py
+            analysis.analyze_data()
+        elif choice == "Manage Locations":
+            locations.show()
     else:
         show_login_or_registration()
 
@@ -38,7 +46,7 @@ def show_login_or_registration():
             if validate_user(username, password):
                 st.session_state.logged_in = True
                 st.session_state.username = username
-                st.experimental_rerun()
+                st.experimental_rerun()  # Rerun to refresh the sidebar
             else:
                 st.error("Invalid username or password.")
     
