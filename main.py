@@ -40,6 +40,16 @@ def main():
             visibility: hidden;
             display: none;
         }
+        .st-emotion-cache-n8e7in {
+            max-height: 0vh;
+            list-style: none;
+            overflow: hidden;
+            margin: 0px;
+            padding-top: 6rem;
+            padding-bottom: 1rem;
+            visibility: hidden;
+            display: none;
+        }
                 .stApp .sidebar-content {
             display: none; /* Hides the sidebar content */
         }
