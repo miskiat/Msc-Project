@@ -16,6 +16,20 @@ def save_locations(df):
     df.to_csv(LOCATIONS_CSV_PATH, index=False)
 
 def show():
+    # Add custom CSS
+    st.markdown("""
+        <style>
+        .st-emotion-cache-1s0bj5q {
+            max-height: 0;
+            list-style: none;
+            overflow: overlay;
+            margin: 0px;
+            padding-top: 0;
+            padding-bottom: 0;
+            visibility: hidden;
+        }
+        </style>
+        """, unsafe_allow_html=True)
     st.title("Manage Locations")
 
     # Load locations from CSV

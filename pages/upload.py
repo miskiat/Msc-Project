@@ -8,6 +8,20 @@ LOCATIONS_CSV_PATH = 'data/locations.csv'
 DATA_CSV_PATH = 'data/data.csv'
 
 def load_locations():
+    # Add custom CSS
+    st.markdown("""
+        <style>
+        .st-emotion-cache-1s0bj5q {
+            max-height: 0;
+            list-style: none;
+            overflow: overlay;
+            margin: 0px;
+            padding-top: 0;
+            padding-bottom: 0;
+            visibility: hidden;
+        }
+        </style>
+        """, unsafe_allow_html=True)
     if os.path.exists(LOCATIONS_CSV_PATH):
         return pd.read_csv(LOCATIONS_CSV_PATH)
     else:

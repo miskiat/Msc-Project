@@ -1,10 +1,13 @@
+# models.py
+
 import pandas as pd
 from werkzeug.security import generate_password_hash, check_password_hash
 
 USER_CSV_PATH = 'data/users.csv'
 SITE_CSV_PATH = 'data/sites.csv'
 
-# User management
+# User management functions
+
 def load_users():
     try:
         return pd.read_csv(USER_CSV_PATH)
@@ -21,7 +24,6 @@ def get_user(username):
 def validate_user(username, password):
     user = get_user(username)
     if user is not None:
-        # Ensure 'password' is a single string value
         hashed_password = user['password']
         return check_password_hash(hashed_password, password)
     return False
@@ -31,6 +33,9 @@ def save_users(df):
 
 def add_user(username, password, role):
     df = load_users()
+    if not df[df['username'] == username].empty:
+        return "Username already exists"
+
     user_id = df['user_id'].max() + 1 if not df.empty else 1
     hashed_password = generate_password_hash(password)
     new_user = pd.DataFrame({
@@ -41,18 +46,40 @@ def add_user(username, password, role):
     })
     df = pd.concat([df, new_user], ignore_index=True)
     save_users(df)
+    return None
 
-# def get_user(username):
-#     df = load_users()
-#     return df[df['username'] == username].iloc[0] if not df[df['username'] == username].empty else None
+def admin_add_user(username, password, role):
+    # Only admin can use this function
+    return add_user(username, password, role)
 
-# def validate_user(username, password):
-#     user = get_user(username)
-#     if user and check_password_hash(user['password'].values[0], password):
-#         return True
-#     return False
+def get_all_users():
+    return load_users()
 
-# Site management
+def update_user(username, new_role=None, new_password=None):
+    df = load_users()
+    user_idx = df[df['username'] == username].index
+
+    if user_idx.empty:
+        return False
+    
+    if new_role is not None:
+        df.at[user_idx, 'role'] = new_role
+
+    if new_password:
+        hashed_password = generate_password_hash(new_password)
+        df.at[user_idx, 'password'] = hashed_password
+
+    save_users(df)
+    return True
+
+def delete_user(username):
+    df = load_users()
+    df = df[df['username'] != username]
+    save_users(df)
+    return True
+
+# Site management functions
+
 def load_sites():
     try:
         return pd.read_csv(SITE_CSV_PATH)
