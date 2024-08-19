@@ -1,5 +1,3 @@
-# main.py
-
 import streamlit as st
 from models import add_user, validate_user, get_user
 from pages import home, upload, analysis, locations, user_management
@@ -50,7 +48,7 @@ def main():
             visibility: hidden;
             display: none;
         }
-                .stApp .sidebar-content {
+        .stApp .sidebar-content {
             display: none; /* Hides the sidebar content */
         }
         .stApp .css-1q6w1v3 {
@@ -64,6 +62,8 @@ def main():
         st.session_state.logged_in = False
     if 'username' not in st.session_state:
         st.session_state.username = None
+    if 'role' not in st.session_state:
+        st.session_state.role = None
 
     # Display the logo at the top of the page and add logout functionality
     if st.session_state.logged_in:
@@ -74,20 +74,25 @@ def main():
         menu = ["Home", "Upload Data", "Analyze Data", "Manage Locations", "User Management"]
         choice = st.sidebar.selectbox("Select Page", menu)
 
-        if choice == "Home":
-            home.show()
-        elif choice == "Upload Data":
-            upload.upload_data()
-        elif choice == "Analyze Data":
-            analysis.analyze_data()
-        elif choice == "Manage Locations":
-            locations.show()
-        elif choice == "User Management":
-            user_management.show()
+        if st.session_state.role == "User" and choice in ["Upload Data", "Manage Locations", "User Management"]:
+            st.error("Access Denied")
+            st.sidebar.selectbox("Select Page", ["Home", "Analyze Data"])
+        else:
+            if choice == "Home":
+                home.show()
+            elif choice == "Upload Data":
+                upload.upload_data()
+            elif choice == "Analyze Data":
+                analysis.analyze_data()
+            elif choice == "Manage Locations":
+                locations.show()
+            elif choice == "User Management":
+                user_management.show()
 
         if st.sidebar.button("Logout"):
             st.session_state.logged_in = False
             st.session_state.username = None
+            st.session_state.role = None
             st.experimental_rerun()  # Rerun to refresh the page
     else:
         show_login_or_registration()
@@ -122,8 +127,10 @@ def show_login_or_registration():
 
             if login_button:
                 if validate_user(username, password):
+                    user = get_user(username)
                     st.session_state.logged_in = True
                     st.session_state.username = username
+                    st.session_state.role = user['role']
                     st.experimental_rerun()  # Rerun to refresh the sidebar
                 else:
                     st.error("Invalid username or password.")
@@ -133,7 +140,7 @@ def show_login_or_registration():
             st.subheader("Register")
             new_username = st.text_input("New Username", key='register_username')
             new_password = st.text_input("New Password", type="password", key='register_password')
-            role = st.selectbox("Role", ["Admin", "User"])
+            role = "User"  # New registrations default to User
             register_button = st.form_submit_button("Register")
 
             if register_button:
