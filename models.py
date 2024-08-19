@@ -1,5 +1,3 @@
-# models.py
-
 import pandas as pd
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -7,7 +5,6 @@ USER_CSV_PATH = 'data/users.csv'
 SITE_CSV_PATH = 'data/sites.csv'
 
 # User management functions
-
 def load_users():
     try:
         return pd.read_csv(USER_CSV_PATH)
@@ -79,7 +76,6 @@ def delete_user(username):
     return True
 
 # Site management functions
-
 def load_sites():
     try:
         return pd.read_csv(SITE_CSV_PATH)
