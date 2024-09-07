@@ -1,9 +1,8 @@
-# pages/analysis.py
-
 import streamlit as st
 import pandas as pd
 import numpy as np
 import os
+import plotly.graph_objects as go
 
 DATA_CSV_PATH = 'data/data.csv'  # Adjust path if necessary
 LOCATIONS_CSV_PATH = 'data/locations.csv'  # Adjust path if necessary
@@ -103,7 +102,7 @@ def analyze_data():
         'Temp': 'pink'
     }
 
-    # Create a line chart for each selected location
+    # Create a line chart for each selected location using Plotly
     for location_id in selected_location_ids:
         location_name = locations_df[locations_df['id'] == location_id]['name'].values[0]
         location_data = filtered_df[filtered_df['Location'] == location_id]
@@ -135,7 +134,26 @@ def analyze_data():
 
         if plot_columns:
             st.subheader(f"Data for Location: {location_name}")
-            st.line_chart(location_data[plot_columns].copy(), use_container_width=True)
+            
+            # Plot with Plotly
+            fig = go.Figure()
+            for column in plot_columns:
+                fig.add_trace(go.Scatter(x=location_data.index, y=location_data[column], mode='lines', name=column, line=dict(color=feature_colors.get(column, 'blue'))))
+
+            # Update x-axis to show date in MM/DD format
+            fig.update_layout(
+                xaxis=dict(
+                    title='Date',
+                    tickformat='%m/%d',  # Set the date format to MM/DD
+                    tickangle=-45,  # Rotate the tick labels for better readability
+                ),
+                yaxis=dict(title='Value'),
+                title=f"Data for {location_name}",
+                margin=dict(l=40, r=40, t=50, b=50),
+                height=400,
+                width=800
+            )
+            st.plotly_chart(fig)
         else:
             st.warning(f"No valid columns to plot for location: {location_name}")
 
